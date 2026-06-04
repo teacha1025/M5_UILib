@@ -1,8 +1,7 @@
 #include <M5Unified.h>
 #include <M5GFX.h>
 #include <map>
-#include "M5UI.h"
-
+#include <M5UILib.h>
 
 M5GFX display;
 
@@ -50,14 +49,38 @@ private:
 public:
 	void loop() override
 	{
-		if (btn1.wasReleased()) { PageManager::set(1); }
-		if (btn2.wasReleased()) { PageManager::set(2); }
-		if (btn3.wasReleased()) { PageManager::set(3); }
-		if (btn4.wasReleased()) { PageManager::set(4); }
-		if (btn5.wasReleased()) { PageManager::set(5); }
-		if (btn6.wasReleased()) { PageManager::set(6); }
-		if (btn7.wasReleased()) { PageManager::set(7); }
-		if (btn8.wasReleased()) { PageManager::set(8); }
+		if (btn1.wasReleased())
+		{
+			PageManager::set(1);
+		}
+		if (btn2.wasReleased())
+		{
+			PageManager::set(2);
+		}
+		if (btn3.wasReleased())
+		{
+			PageManager::set(3);
+		}
+		if (btn4.wasReleased())
+		{
+			PageManager::set(4);
+		}
+		if (btn5.wasReleased())
+		{
+			PageManager::set(5);
+		}
+		if (btn6.wasReleased())
+		{
+			PageManager::set(6);
+		}
+		if (btn7.wasReleased())
+		{
+			PageManager::set(7);
+		}
+		if (btn8.wasReleased())
+		{
+			PageManager::set(8);
+		}
 	}
 
 	void init() override
@@ -314,20 +337,18 @@ public:
 
 		toggle1 = uilib::ToggleSwitch({150, 105}, {60, 30}, false, 0x07E0, 0x7BEF, 0xFFFF, this);
 		toggle1.setOnToggleCallback([this](bool state)
-		{
+									{
 			Serial.printf("Toggle switch state changed: %s\n", state ? "ON" : "OFF");
 			button1.setEnabled(!state);
 			button2.setEnabled(!state);
-			slider1.setEnabled(!state); 
-		});
+			slider1.setEnabled(!state); });
 
 		slider1 = uilib::Slider({150, 145}, {150, 20}, 0.0f, 100.0f, 1.0f, 0.0f, GREEN, this);
 		slider1.setOnValueChangeCallback([this](float val)
-		{
+										 {
 			Serial.printf("Slider value changed: %.1f\n", val);
 			i = (int)val;
-			label3.set(String(i)); 
-		});
+			label3.set(String(i)); });
 
 		addElement(&button1);
 		addElement(&button2);
@@ -380,14 +401,10 @@ public:
 
 		checkbox1 = uilib::Checkbox("Check Me!", {15, 55}, false, WHITE, BLACK, 1.0f, this, &fonts::efontJA_16);
 		checkbox1.setOnChangeCallback([](bool checked)
-		{ 
-			Serial.printf("Checkbox state changed: %s\n", checked ? "Checked" : "Unchecked"); 
-		});
+									  { Serial.printf("Checkbox state changed: %s\n", checked ? "Checked" : "Unchecked"); });
 
 		group1.setOnChangeCallback([](int val)
-		{ 
-			Serial.printf("Radio group selected value: %d\n", val); 
-		});
+								   { Serial.printf("Radio group selected value: %d\n", val); });
 
 		radio1 = uilib::RadioButton("Option A", {15, 95}, 1, WHITE, BLACK, 1.0f, this, &fonts::efontJA_16);
 		radio2 = uilib::RadioButton("Option B", {15, 125}, 2, WHITE, BLACK, 1.0f, this, &fonts::efontJA_16);
@@ -403,9 +420,7 @@ public:
 		dropdown1 = uilib::Dropdown(dp_items, {230, 95}, 155, 30, 0, dp_border, BLACK, 1.0f, this, &fonts::efontJA_16);
 		dropdown1.setAlign(uilib::Align::CENTER);
 		dropdown1.setOnChangeCallback([](int idx)
-		{ 
-			Serial.printf("Dropdown 1 selected: %d\n", idx); 
-		});
+									  { Serial.printf("Dropdown 1 selected: %d\n", idx); });
 
 		std::vector<String> dp2_items = {"Item 1", "Item 2", "Item 3"};
 		// 文字色: 8bit整数HSVで生成した色を指定
@@ -413,21 +428,18 @@ public:
 		dropdown2 = uilib::Dropdown(dp2_items, {305, 145}, 155, 30, -1, dp2_border, BLACK, 1.0f, this, &fonts::efontJA_16);
 		dropdown2.setAlign(uilib::Align::RIGHT);
 		dropdown2.setOnChangeCallback([](int idx)
-		{ 
-			Serial.printf("Dropdown 2 selected: %d\n", idx); 
-		});
+									  { Serial.printf("Dropdown 2 selected: %d\n", idx); });
 
 		toggle1 = uilib::ToggleSwitch({180, 55}, {60, 30}, false, 0x07E0, 0x7BEF, 0xFFFF, this);
 		toggle1.setOnToggleCallback([this](bool state)
-		{
+									{
 			Serial.printf("Toggle switch state changed: %s\n", state ? "ON" : "OFF");
 			checkbox1.setEnabled(!state);
 			radio1.setEnabled(!state);
 			radio2.setEnabled(!state);
 			radio3.setEnabled(!state);
 			dropdown1.setEnabled(!state);
-			dropdown2.setEnabled(!state); 
-		});
+			dropdown2.setEnabled(!state); });
 
 		button3 = uilib::DButton("Change", {220, 195}, BLUE, WHITE, 1.0f, this, &fonts::lgfxJapanGothic_20, 10, 4);
 
@@ -466,7 +478,8 @@ public:
 
 		// アニメーション更新
 		angle += 2.0f;
-		if (angle >= 360.0f) angle -= 360.0f;
+		if (angle >= 360.0f)
+			angle -= 360.0f;
 
 		// 1. 矩形: 回転、脈動（拡大縮小）
 		shape1.setRotation(angle);
@@ -511,7 +524,8 @@ public:
 		// 3. カスタム図形 (星形、ピボットは中心)
 		shape3 = uilib::Shape(uilib::ShapeType::Custom, {260, 110}, 40, 40, this);
 		shape3.setOrigin(20.0f, 20.0f);
-		shape3.setCustomDrawCallback([](M5Canvas* sprite, int32_t w, int32_t h) {
+		shape3.setCustomDrawCallback([](M5Canvas *sprite, int32_t w, int32_t h)
+									 {
 			float cx = w / 2.0f;
 			float cy = h / 2.0f;
 			float r_out = w / 2.0f;
@@ -538,8 +552,7 @@ public:
 					points[(i + 1) % 10].x, points[(i + 1) % 10].y,
 					RED
 				);
-			}
-		});
+			} });
 
 		// 描画順序を考慮してPageに追加
 		addElement(&label1);
@@ -576,7 +589,8 @@ public:
 
 		// アニメーション更新（Page5でも少し動かしてアフィン変換がレイアウト上で正しく動くか検証）
 		angle += 1.5f;
-		if (angle >= 360.0f) angle -= 360.0f;
+		if (angle >= 360.0f)
+			angle -= 360.0f;
 
 		shape1.setRotation(angle);
 		shape2.setRotation(-angle);
@@ -629,7 +643,8 @@ public:
 		// 3. カスタム図形 (星形、ピボットは中心)
 		shape3 = uilib::Shape(uilib::ShapeType::Custom, {0, 0}, 40, 40, this);
 		shape3.setOrigin(20.0f, 20.0f);
-		shape3.setCustomDrawCallback([](M5Canvas* sprite, int32_t w, int32_t h) {
+		shape3.setCustomDrawCallback([](M5Canvas *sprite, int32_t w, int32_t h)
+									 {
 			float cx = w / 2.0f;
 			float cy = h / 2.0f;
 			float r_out = w / 2.0f;
@@ -656,8 +671,7 @@ public:
 					points[(i + 1) % 10].x, points[(i + 1) % 10].y,
 					RED
 				);
-			}
-		});
+			} });
 
 		hbox.addChild(&shape1);
 		hbox.addChild(&shape2);
@@ -694,16 +708,56 @@ private:
 public:
 	void loop() override
 	{
-		if (btn1.wasReleased()) { input_val = (input_val == "0") ? "1" : input_val + "1"; label_input.set(input_val); }
-		if (btn2.wasReleased()) { input_val = (input_val == "0") ? "2" : input_val + "2"; label_input.set(input_val); }
-		if (btn3.wasReleased()) { input_val = (input_val == "0") ? "3" : input_val + "3"; label_input.set(input_val); }
-		if (btn4.wasReleased()) { input_val = (input_val == "0") ? "4" : input_val + "4"; label_input.set(input_val); }
-		if (btn5.wasReleased()) { input_val = (input_val == "0") ? "5" : input_val + "5"; label_input.set(input_val); }
-		if (btn6.wasReleased()) { input_val = (input_val == "0") ? "6" : input_val + "6"; label_input.set(input_val); }
-		if (btn7.wasReleased()) { input_val = (input_val == "0") ? "7" : input_val + "7"; label_input.set(input_val); }
-		if (btn8.wasReleased()) { input_val = (input_val == "0") ? "8" : input_val + "8"; label_input.set(input_val); }
-		if (btn9.wasReleased()) { input_val = (input_val == "0") ? "9" : input_val + "9"; label_input.set(input_val); }
-		if (btn0.wasReleased()) { input_val = (input_val == "0") ? "0" : input_val + "0"; label_input.set(input_val); }
+		if (btn1.wasReleased())
+		{
+			input_val = (input_val == "0") ? "1" : input_val + "1";
+			label_input.set(input_val);
+		}
+		if (btn2.wasReleased())
+		{
+			input_val = (input_val == "0") ? "2" : input_val + "2";
+			label_input.set(input_val);
+		}
+		if (btn3.wasReleased())
+		{
+			input_val = (input_val == "0") ? "3" : input_val + "3";
+			label_input.set(input_val);
+		}
+		if (btn4.wasReleased())
+		{
+			input_val = (input_val == "0") ? "4" : input_val + "4";
+			label_input.set(input_val);
+		}
+		if (btn5.wasReleased())
+		{
+			input_val = (input_val == "0") ? "5" : input_val + "5";
+			label_input.set(input_val);
+		}
+		if (btn6.wasReleased())
+		{
+			input_val = (input_val == "0") ? "6" : input_val + "6";
+			label_input.set(input_val);
+		}
+		if (btn7.wasReleased())
+		{
+			input_val = (input_val == "0") ? "7" : input_val + "7";
+			label_input.set(input_val);
+		}
+		if (btn8.wasReleased())
+		{
+			input_val = (input_val == "0") ? "8" : input_val + "8";
+			label_input.set(input_val);
+		}
+		if (btn9.wasReleased())
+		{
+			input_val = (input_val == "0") ? "9" : input_val + "9";
+			label_input.set(input_val);
+		}
+		if (btn0.wasReleased())
+		{
+			input_val = (input_val == "0") ? "0" : input_val + "0";
+			label_input.set(input_val);
+		}
 
 		if (btn_clear.wasReleased())
 		{
@@ -815,12 +869,23 @@ public:
 			PageManager::set(8);
 		}
 
-		for (int i = 0; i < 5; ++i) {
-			if (btn_v[i].wasReleased()) { Serial.printf("V Item %d selected\n", i + 1); }
-			if (btn_h[i].wasReleased()) { Serial.printf("H Item %d selected\n", i + 1); }
+		for (int i = 0; i < 5; ++i)
+		{
+			if (btn_v[i].wasReleased())
+			{
+				Serial.printf("V Item %d selected\n", i + 1);
+			}
+			if (btn_h[i].wasReleased())
+			{
+				Serial.printf("H Item %d selected\n", i + 1);
+			}
 		}
-		for (int i = 0; i < 6; ++i) {
-			if (btn_both[i].wasReleased()) { Serial.printf("Both Item %d selected\n", i + 1); }
+		for (int i = 0; i < 6; ++i)
+		{
+			if (btn_both[i].wasReleased())
+			{
+				Serial.printf("Both Item %d selected\n", i + 1);
+			}
 		}
 	}
 
@@ -848,12 +913,14 @@ public:
 
 		// 縦スクロールボタンの初期化
 		uilib::Color btn_v_bg(50, 150, 50);
-		for (int i = 0; i < 5; ++i) {
+		for (int i = 0; i < 5; ++i)
+		{
 			btn_v[i] = uilib::DButton("V " + String(i + 1), {0, 0}, WHITE, btn_v_bg, 1.0f, this, &fonts::efontJA_14, 6, 2);
 			vbox.addChild(&btn_v[i]);
 		}
 		scroll_panel_v.addChild(&vbox);
-		for (int i = 0; i < 5; ++i) {
+		for (int i = 0; i < 5; ++i)
+		{
 			scroll_panel_v.addChild(&btn_v[i]);
 		}
 
@@ -871,12 +938,14 @@ public:
 
 		// 横スクロールボタンの初期化
 		uilib::Color btn_h_bg(150, 50, 150);
-		for (int i = 0; i < 5; ++i) {
+		for (int i = 0; i < 5; ++i)
+		{
 			btn_h[i] = uilib::DButton("H " + String(i + 1), {0, 0}, WHITE, btn_h_bg, 1.0f, this, &fonts::efontJA_14, 6, 2);
 			hbox.addChild(&btn_h[i]);
 		}
 		scroll_panel_h.addChild(&hbox);
-		for (int i = 0; i < 5; ++i) {
+		for (int i = 0; i < 5; ++i)
+		{
 			scroll_panel_h.addChild(&btn_h[i]);
 		}
 
@@ -894,12 +963,14 @@ public:
 
 		// 縦横スクロールボタンの初期化
 		uilib::Color btn_both_bg(50, 100, 150);
-		for (int i = 0; i < 6; ++i) {
+		for (int i = 0; i < 6; ++i)
+		{
 			btn_both[i] = uilib::DButton("B " + String(i + 1), {0, 0}, WHITE, btn_both_bg, 1.0f, this, &fonts::efontJA_14, 6, 2);
 			grid.addChild(&btn_both[i]);
 		}
 		scroll_panel_both.addChild(&grid);
-		for (int i = 0; i < 6; ++i) {
+		for (int i = 0; i < 6; ++i)
+		{
 			scroll_panel_both.addChild(&btn_both[i]);
 		}
 
@@ -922,7 +993,7 @@ class Page8 : public uilib::Page
 private:
 	uilib::Label label_title;
 	uilib::TabPanel tab_panel;
-	
+
 	// タブ1用
 	uilib::VBox vbox_tab1;
 	uilib::DButton btn_control1;
@@ -939,7 +1010,7 @@ private:
 	uilib::DButton btn_scroll_items[6];
 
 	// メッセージボックス
-	uilib::MessageBox* message_box = nullptr;
+	uilib::MessageBox *message_box = nullptr;
 
 	uilib::DButton btn_change;
 
@@ -960,16 +1031,19 @@ public:
 		if (btn_control1.wasReleased())
 		{
 			Serial.println("Control tab: Button A released! Showing MessageBox");
-			message_box->show("Confirm Action", "Do you want to proceed\nwith this task?", uilib::MessageBoxType::OK_CANCEL, [](uilib::MessageBoxResult result) {
+			message_box->show("Confirm Action", "Do you want to proceed\nwith this task?", uilib::MessageBoxType::OK_CANCEL, [](uilib::MessageBoxResult result)
+							  {
 				if (result == uilib::MessageBoxResult::OK) {
 					Serial.println("MessageBox Result: OK selected");
 				} else {
 					Serial.println("MessageBox Result: CANCEL selected");
-				}
-			});
+				} });
 		}
 
-		if (btn_layout1.wasReleased()) { Serial.println("Layout tab: button 1 selected"); }
+		if (btn_layout1.wasReleased())
+		{
+			Serial.println("Layout tab: button 1 selected");
+		}
 
 		for (int i = 0; i < 6; ++i)
 		{
@@ -982,7 +1056,8 @@ public:
 		// アニメーション更新（タブ2の図形を回転）
 		static float angle = 0.0f;
 		angle += 2.0f;
-		if (angle >= 360.0f) angle -= 360.0f;
+		if (angle >= 360.0f)
+			angle -= 360.0f;
 		shape_layout.setRotation(angle);
 	}
 
